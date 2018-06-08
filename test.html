@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书录入</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <button id="dataGet">数据获取</button>
+        <h1>图书录入</h1>
+        <div>
+            <p>编号</p>
+            <input type="text" name="id" class="book-id"><br>
+            <p>书名</p>
+            <input type="text" name="title" class="book-title"><br>
+            <p>价格</p>
+            <input type="text" name="price" class="book-price"><br>
+            <p>作者</p>
+            <input type="text" name="author" class="book-author"><br><br>
+            <button id="submit">提交</button>
+        </div>
+    </div>
+    <script>
+    $(document).ready(function() {
+        const bookId=$('.book-id')[0];
+        const bookTitle=$('.book-title')[0];
+        const bookPrice=$('.book-price')[0];
+        const bookAuthor=$('.book-author')[0];
+        const btn=$('#submit');
+        const dataGetBtn=$('#dataGet');
+
+        dataGetBtn.on('click',function(){
+            getAjax('get',{'bookId':'002305'});
+        })
+        btn.on('click',function(){
+            let bookList={};
+            bookList.bookId=bookId.value;
+            bookList.name=bookTitle.value;
+            bookList.author=bookAuthor.value;
+            bookList.price=bookPrice.value;
+            getAjax('post',bookList);
+        })
+        function getAjax(type,obj){
+            $.ajax({
+                type:type,
+                url:'http://127.0.0.1:3000/'+type,
+                data:obj,
+                success:function(data){
+                    console.log(data);
+                },
+                error:function(){
+                    console.log('error');
+                }
+            })
+        }
+    })
+    </script>
+</body>
+</html>
